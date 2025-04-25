@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: headless-cms
+  datasource:
+    url: jdbc:postgresql://localhost:5432/headless_cms
+    username: pourya
+    password: 12345
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+logging:
+  level:
+    root: debug
