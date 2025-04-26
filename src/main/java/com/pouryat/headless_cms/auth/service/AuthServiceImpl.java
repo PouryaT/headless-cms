@@ -66,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findById(0L).orElseThrow(() ->new CustomException("role not found",404)));
+        roles.add(roleRepository.findById(1L).orElseThrow(() ->new CustomException("role not found",404)));
 
         User newUser = User.builder().username(registerRequestDto.getUsername()).password(passwordEncoder.encode(registerRequestDto.getPassword())).roles(roles).build();
         return new ResponseEntity<>(authMapper.userToAuthResponseDto(userRepository.save(newUser)), HttpStatus.OK);

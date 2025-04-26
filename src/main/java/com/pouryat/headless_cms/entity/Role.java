@@ -1,5 +1,6 @@
 package com.pouryat.headless_cms.entity;
 
+import com.pouryat.headless_cms.model.RoleName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String roleName;  // Example: ADMIN, USER, EDITOR
+    @Enumerated(EnumType.STRING)
+    private RoleName roleName;
 
     @ManyToMany
     private Set<Authority> authorities;

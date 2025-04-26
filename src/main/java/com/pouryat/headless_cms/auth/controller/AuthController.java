@@ -5,7 +5,6 @@ import com.pouryat.headless_cms.auth.model.LoginRequestDto;
 import com.pouryat.headless_cms.auth.model.RegisterRequestDto;
 import com.pouryat.headless_cms.auth.service.AuthService;
 import jakarta.validation.Valid;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +19,12 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> logIn(@RequestBody @Valid LoginRequestDto authenticateRequest) {
         return authService.signIn(authenticateRequest);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> register(@RequestBody @Valid RegisterRequestDto user) {
         return authService.signUp(user);
     }

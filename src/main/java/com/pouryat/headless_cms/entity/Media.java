@@ -1,6 +1,6 @@
 package com.pouryat.headless_cms.entity;
 
-import com.pouryat.headless_cms.model.Authorities;
+import com.pouryat.headless_cms.model.MediaType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +13,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Authority {
+public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Authorities authorityName;
+    private String url;
+
+    private MediaType type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Post post;
 }
