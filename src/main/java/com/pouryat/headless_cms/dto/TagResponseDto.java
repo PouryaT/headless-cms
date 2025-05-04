@@ -1,22 +1,16 @@
-package com.pouryat.headless_cms.entity;
+package com.pouryat.headless_cms.dto;
 
-import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TagResponseDto {
     private Long id;
-
     private String name;
 }

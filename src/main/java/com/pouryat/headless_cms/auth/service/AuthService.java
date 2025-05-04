@@ -8,5 +8,5 @@ import org.springframework.http.ResponseEntity;
 public interface AuthService {
     ResponseEntity<AuthResponseDto> signIn(LoginRequestDto loginRequestDto);
 
-    ResponseEntity<AuthResponseDto> signUp(RegisterRequestDto loginRequestModel);
+    void signUp(RegisterRequestDto loginRequestModel);
 }

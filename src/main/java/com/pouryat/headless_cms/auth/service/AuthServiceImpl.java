@@ -9,9 +9,9 @@ import com.pouryat.headless_cms.config.CustomUserDetailService;
 import com.pouryat.headless_cms.entity.Role;
 import com.pouryat.headless_cms.entity.User;
 import com.pouryat.headless_cms.handler.CustomException;
-import com.pouryat.headless_cms.mapper.AuthMapper;
 import com.pouryat.headless_cms.repository.RoleRepository;
 import com.pouryat.headless_cms.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +38,9 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
 
-    private final AuthMapper authMapper;
-
     private final RoleRepository roleRepository;
 
+    @Transactional
     @Override
     public ResponseEntity<AuthResponseDto> signIn(LoginRequestDto authenticateRequest) throws CustomException {
         User user = userRepository.findByUsername(authenticateRequest.getUsername()).orElseThrow(RuntimeException::new);
@@ -59,16 +58,20 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    @Transactional
     @Override
-    public ResponseEntity<AuthResponseDto> signUp(RegisterRequestDto registerRequestDto) throws CustomException {
+    public void signUp(RegisterRequestDto registerRequestDto) throws CustomException {
         if (userRepository.findByUsername(registerRequestDto.getUsername()).isPresent()) {
             throw new CustomException("Username already exists", HttpStatus.CONFLICT.value());
         }
 
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findById(1L).orElseThrow(() ->new CustomException("role not found",404)));
+        roles.add(roleRepository.findById(1L).orElseThrow(() -> new CustomException("role not found", 404)));
 
-        User newUser = User.builder().username(registerRequestDto.getUsername()).password(passwordEncoder.encode(registerRequestDto.getPassword())).roles(roles).build();
-        return new ResponseEntity<>(authMapper.userToAuthResponseDto(userRepository.save(newUser)), HttpStatus.OK);
+        userRepository.save(User.builder()
+                .username(registerRequestDto.getUsername())
+                .password(passwordEncoder.encode(registerRequestDto.getPassword()))
+                .roles(roles)
+                .build());
     }
 }

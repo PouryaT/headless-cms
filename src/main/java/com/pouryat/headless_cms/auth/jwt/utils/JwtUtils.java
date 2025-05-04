@@ -2,7 +2,6 @@ package com.pouryat.headless_cms.auth.jwt.utils;
 
 
 import com.pouryat.headless_cms.entity.User;
-import com.pouryat.headless_cms.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,8 +25,6 @@ public class JwtUtils {
 
     private static final String SECRET_KEY = "93734fcb51ad328838a67bdb5ea86fa995a44a110bdfe6fd6c16ab8ddae82fd8839e595ee3715de416bba2d4c7a1aaa48ed1bf2cd57b51f8e4286afe867a30a92588f483ee3b2e16e7c8831637633df723309e5d05ddc68c5a96e452cbcb35abd98b48b31e81550d00f8bd80e8ff1d5175e7b385ccffe649e56319d4f4ff3157b462a32bf8087eb5265e1057a45613045c9963c04ee61ee10618d022e2bc61a2599a9f9173061f7ff8cd5656c67af9d5b5fb7244a631263a7b81b0558affdfd26bf21dbc19ca06ea58b0ffda2332d24538d92cfea2e159b77d4d5320aef52497fc8f04eaa05f11248a751884d60b8403a7e10af2a95b1600aef634f334f37aa2";
     private static final long JWT_EXPIRATION_MS = 86400000; // 24 hours
-
-    private final UserRepository userRepository;
 
     // Create JWT signing key
     private Key getSigningKey() {

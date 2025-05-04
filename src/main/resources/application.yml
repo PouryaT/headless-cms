@@ -9,6 +9,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-logging:
-  level:
-    root: debug
+  minio:
+    url: http://localhost:9000
+    access-key: minioadmin
+    secret-key: minioadmin123
+    bucket: media
+

@@ -18,8 +18,11 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 510)
     private String url;
+    private String fileName;
 
+    @Enumerated(EnumType.STRING)
     private MediaType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
