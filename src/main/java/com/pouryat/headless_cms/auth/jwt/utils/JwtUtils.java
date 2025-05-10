@@ -1,15 +1,14 @@
 package com.pouryat.headless_cms.auth.jwt.utils;
 
 
-import com.pouryat.headless_cms.entity.User;
+import com.pouryat.headless_cms.handler.CustomException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -36,11 +35,6 @@ public class JwtUtils {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return buildToken(claims, userDetails.getUsername());
-    }
-
-    // Generate token with extra claims
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return buildToken(extraClaims, userDetails.getUsername());
     }
 
     private String buildToken(Map<String, Object> claims, String subject) {
@@ -71,7 +65,7 @@ public class JwtUtils {
 
     // Parse and validate token
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
@@ -89,14 +83,9 @@ public class JwtUtils {
         return extractExpiration(token).before(new Date());
     }
 
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.isAuthenticated()) {
-            Object principal = authentication.getPrincipal();
-
-            return (User) principal;
+    public static void checkOwnership(Long ownerId, Long currentUserId) {
+        if (!ownerId.equals(currentUserId)) {
+            throw new CustomException("You are not authorized to perform this action.", HttpStatus.FORBIDDEN.value());
         }
-        throw new IllegalStateException("User not authenticated");
     }
 }

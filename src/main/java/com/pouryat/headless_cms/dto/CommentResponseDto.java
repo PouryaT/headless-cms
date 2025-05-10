@@ -17,4 +17,5 @@ public class CommentResponseDto {
     private String authorName;
     private Long postId;
     private LocalDateTime createdAt;
+    private boolean confirmed;
 }

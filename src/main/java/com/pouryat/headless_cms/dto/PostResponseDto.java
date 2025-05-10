@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,4 +23,6 @@ public class PostResponseDto {
     private String authorName;
     private Set<String> categories;
     private Set<String> tags;
+    private String content;
+    private List<MediaResponseDto> medias;
 }

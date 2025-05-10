@@ -5,6 +5,8 @@ import com.pouryat.headless_cms.entity.Category;
 import com.pouryat.headless_cms.entity.Post;
 import com.pouryat.headless_cms.entity.Tag;
 
+import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,19 +21,31 @@ public class PostMapper {
                 post.getUpdatedAt(),
                 post.getAuthor().getUsername(),
                 mapCategories(post.getCategories()),
-                mapTags(post.getTags())
+                mapTags(post.getTags()),
+                post.getContent(),
+                Optional.ofNullable(post.getMedias())
+                        .orElse(Collections.emptyList())
+                        .stream()
+                        .map(MediaMapper::toDto)
+                        .collect(Collectors.toList())
         );
     }
 
     static Set<String> mapCategories(Set<Category> categories) {
-        return categories.stream()
-                .map(Category::getName)
-                .collect(Collectors.toSet());
+        if (categories != null) {
+            return categories.stream()
+                    .map(Category::getName)
+                    .collect(Collectors.toSet());
+        }
+        return null;
     }
 
     static Set<String> mapTags(Set<Tag> tags) {
-        return tags.stream()
-                .map(Tag::getName)
-                .collect(Collectors.toSet());
+        if (tags != null) {
+            return tags.stream()
+                    .map(Tag::getName)
+                    .collect(Collectors.toSet());
+        }
+        return null;
     }
 }

@@ -27,7 +27,7 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin123
     volumes:
       - minio_data:/data
-    command: server /data --console-address ":9001" --insecure
+    command: server /data --console-address ":9001"
 
   springboot-app:
     build: .

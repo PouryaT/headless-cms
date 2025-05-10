@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table
 @Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +21,9 @@ public class Comment {
 
     private String content;
 
-    private String authorName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private User author;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -28,4 +31,6 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    private Boolean confirmed;
 }

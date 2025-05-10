@@ -8,13 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostCreateDto implements Serializable {
+public class PostUpdateDto implements Serializable {
     @NotBlank(message = "Title is required")
     private String title;
 
@@ -23,4 +24,6 @@ public class PostCreateDto implements Serializable {
 
     @NotEmpty(message = "At least one tag must be selected")
     private Set<Long> tagIds;
+
+    private List<Long> mediaIdsToRemove;
 }

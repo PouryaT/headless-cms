@@ -2,17 +2,22 @@ package com.pouryat.headless_cms.service;
 
 import com.pouryat.headless_cms.dto.CommentCreateDto;
 import com.pouryat.headless_cms.dto.CommentResponseDto;
+import com.pouryat.headless_cms.entity.User;
 
 import java.util.List;
 
 public interface CommentService {
-    CommentResponseDto createComment(CommentCreateDto dto);
+    CommentResponseDto createComment(User user, CommentCreateDto dto);
 
     CommentResponseDto getCommentById(Long id);
 
-    CommentResponseDto updateComment(Long id, CommentCreateDto dto);
+    CommentResponseDto updateCommentStatus(Long id, boolean confirmed);
 
-    void deleteComment(Long id);
+    CommentResponseDto updateComment(User user, Long id, CommentCreateDto dto);
 
-    List<CommentResponseDto> getAllComments();
+    void deleteComment(User user, Long id);
+
+    List<CommentResponseDto> getAllComments(int page, int size);
+
+    List<CommentResponseDto> getCommentByPostId(Long id, int page, int size);
 }

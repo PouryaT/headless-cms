@@ -1,32 +1,42 @@
 package com.pouryat.headless_cms.service;
 
+import com.pouryat.headless_cms.entity.Media;
+import com.pouryat.headless_cms.entity.Post;
+import com.pouryat.headless_cms.entity.User;
 import com.pouryat.headless_cms.model.MinIODownloadResponse;
 import com.pouryat.headless_cms.model.MinIOUploadResponse;
+import com.pouryat.headless_cms.repository.MediaRepository;
 import io.minio.*;
 import io.minio.errors.MinioException;
 import io.minio.http.Method;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class MinIOService {
+public class StorageService {
 
     private final MinioClient minioClient;
+    private final MediaRepository mediaRepository;
 
     private String bucketName;
 
-    public MinIOService() {
+    @Autowired
+    public StorageService(MediaRepository mediaRepository) {
         this.minioClient = MinioClient.builder()
                 .endpoint("http://localhost:9000")
                 .credentials("minioadmin", "minioadmin123")
                 .build();
+        this.mediaRepository = mediaRepository;
     }
 
     public void createBucketAndMakePublic(String bucketName) throws Exception {
@@ -75,30 +85,46 @@ public class MinIOService {
         }
     }
 
-    public MinIOUploadResponse uploadFile(MultipartFile file) throws Exception {
-        String objectName = UUID.randomUUID() + "-" + file.getOriginalFilename();
+    public List<MinIOUploadResponse> uploadFile(User user , MultipartFile[] multipartFiles, Post post) throws Exception {
+        List<MinIOUploadResponse> minIOUploadResponseList = new ArrayList<>();
+        List<Media> mediaSet = new ArrayList<>();
 
-        try {
-            minioClient.putObject(
-                    PutObjectArgs.builder()
+        for (MultipartFile file : multipartFiles) {
+            String objectName = UUID.randomUUID() + "-" + file.getOriginalFilename();
+
+            try {
+                minioClient.putObject(
+                        PutObjectArgs.builder()
+                                .bucket(bucketName)
+                                .object(objectName)
+                                .stream(file.getInputStream(), file.getSize(), -1)
+                                .contentType(file.getContentType())
+                                .build()
+                );
+            } catch (Exception e) {
+                throw new Exception(e);
+            }
+
+            String url = minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
                             .bucket(bucketName)
                             .object(objectName)
-                            .stream(file.getInputStream(), file.getSize(), -1)
-                            .contentType(file.getContentType())
-                            .build()
-            );
-        } catch (Exception e) {
-            throw new Exception(e);
+                            .method(Method.GET)
+                            .expiry(60 * 60) // 1 hour
+                            .build());
+            Media media = new Media();
+            media.setUrl(url);
+            media.setPost(post);
+            media.setFileName(objectName);
+            media.setUploadedAt(LocalDateTime.now());
+            media.setUploadedBy(user);
+            Media savedMedia = mediaRepository.save(media);
+            MinIOUploadResponse minIOUploadResponse = new MinIOUploadResponse(savedMedia.getId(), url, objectName);
+            mediaSet.add(media);
+            minIOUploadResponseList.add(minIOUploadResponse);
         }
-
-        return new MinIOUploadResponse(minioClient.getPresignedObjectUrl(
-                GetPresignedObjectUrlArgs.builder()
-                        .bucket(bucketName)
-                        .object(objectName)
-                        .method(Method.GET)
-                        .expiry(60 * 60) // 1 hour
-                        .build()
-        ), objectName);
+        post.setMedias(mediaSet);
+        return minIOUploadResponseList;
     }
 
     public List<MinIODownloadResponse.FileDownloadMeta> getDownloadUrls(List<String> fileNames) {
@@ -146,7 +172,6 @@ public class MinIOService {
             throw new RuntimeException("Failed to delete files", e);
         }
     }
-
 
     @PostConstruct
     public void init() {
