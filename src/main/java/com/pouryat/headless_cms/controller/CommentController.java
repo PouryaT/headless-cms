@@ -8,6 +8,7 @@ import com.pouryat.headless_cms.service.CommentService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,7 @@ public class CommentController {
         return commentService.updateComment(user, id, dto);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}/update-status")
     public CommentResponseDto updateStatus(@RequestParam(name = "status") Boolean status,
                                            @PathVariable @Positive Long id) {
