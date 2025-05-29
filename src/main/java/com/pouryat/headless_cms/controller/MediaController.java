@@ -24,10 +24,9 @@ public class MediaController {
     @PostMapping
     public List<MinIOUploadResponse> uploadMedia(
             @RequestParam("files") MultipartFile[] files,
-            @RequestParam("postId") Long postId,
             @CurrentUser User currentUser
     ) throws Exception {
-        return mediaService.uploadMedias(files, currentUser, postId);
+        return mediaService.uploadMedias(files, currentUser);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

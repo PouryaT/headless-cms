@@ -2,6 +2,7 @@ package com.pouryat.headless_cms.controller;
 
 import com.pouryat.headless_cms.dto.CommentCreateDto;
 import com.pouryat.headless_cms.dto.CommentResponseDto;
+import com.pouryat.headless_cms.dto.CommentUpdateDto;
 import com.pouryat.headless_cms.entity.User;
 import com.pouryat.headless_cms.resolver.CurrentUser;
 import com.pouryat.headless_cms.service.CommentService;
@@ -35,7 +36,7 @@ public class CommentController {
     @PutMapping("/{id}")
     public CommentResponseDto update(@CurrentUser User user,
                                      @PathVariable @Positive Long id,
-                                     @RequestBody @Valid CommentCreateDto dto) {
+                                     @RequestBody @Valid CommentUpdateDto dto) {
         return commentService.updateComment(user, id, dto);
     }
 

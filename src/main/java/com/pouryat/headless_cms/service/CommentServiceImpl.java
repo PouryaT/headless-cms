@@ -3,6 +3,7 @@ package com.pouryat.headless_cms.service;
 import com.pouryat.headless_cms.auth.jwt.utils.JwtUtils;
 import com.pouryat.headless_cms.dto.CommentCreateDto;
 import com.pouryat.headless_cms.dto.CommentResponseDto;
+import com.pouryat.headless_cms.dto.CommentUpdateDto;
 import com.pouryat.headless_cms.entity.Comment;
 import com.pouryat.headless_cms.entity.Role;
 import com.pouryat.headless_cms.entity.User;
@@ -79,7 +80,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentResponseDto updateComment(User user, Long id, CommentCreateDto dto) {
+    public CommentResponseDto updateComment(User user, Long id, CommentUpdateDto dto) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
         JwtUtils.checkOwnership(comment.getAuthor().getId(), user.getId());

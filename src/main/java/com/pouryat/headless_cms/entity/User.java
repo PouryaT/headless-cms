@@ -2,7 +2,10 @@ package com.pouryat.headless_cms.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
@@ -23,4 +26,9 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    private boolean subscription;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Post> bookmarkedPosts;
 }

@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface MediaService {
-    List<MinIOUploadResponse> uploadMedias(MultipartFile[] files, User user, Long postId) throws Exception;
+    List<MinIOUploadResponse> uploadMedias(MultipartFile[] files, User user) throws Exception;
 
     MediaResponseDto getMediaById(Long id);
 

@@ -171,10 +171,10 @@ VALUES (1, 'Technology');
 INSERT INTO category (id, name)
 VALUES (2, 'Art');
 -- Insert Posts (with created_at, updated_at, status)
-INSERT INTO post (id, title, author_id, created_at, updated_at, status)
-VALUES (1, 'First Post', 1, NOW(), NOW(), 'PUBLISHED');
-INSERT INTO post (id, title, author_id, created_at, updated_at, status)
-VALUES (2, 'Second Post', 2, NOW(), NOW(), 'DRAFT');
+INSERT INTO post (id, title, author_id,post_type, created_at, updated_at, status)
+VALUES (1, 'First Post', 1,'PUBLIC_POST', NOW(), NOW(), 'PUBLISHED');
+INSERT INTO post (id, title, author_id,post_type, created_at, updated_at, status)
+VALUES (2, 'Second Post', 1,'SUBSCRIPTION_POST', NOW(), NOW(), 'DRAFT');
 -- Insert Media (with post_id)
 INSERT INTO media (id, url, type, post_id)
 VALUES (1, 'https://example.com/image1.jpg', 'IMAGE', 1);

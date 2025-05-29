@@ -19,6 +19,7 @@ public class PostMapper {
                 post.getStatus(),
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
+                post.getPostType(),
                 post.getAuthor().getUsername(),
                 mapCategories(post.getCategories()),
                 mapTags(post.getTags()),

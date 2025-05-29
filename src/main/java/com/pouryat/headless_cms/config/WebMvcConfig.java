@@ -1,6 +1,7 @@
 package com.pouryat.headless_cms.config;
 
 import com.pouryat.headless_cms.resolver.CurrentUserArgumentResolver;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.util.List;
 
+@Slf4j
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -41,7 +43,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public CommandLineRunner printAllEndpoints(RequestMappingHandlerMapping mapping) {
-        return args -> mapping.getHandlerMethods().forEach((key, value) -> System.out.println(key + " : " + value));
+        return args -> mapping.getHandlerMethods().forEach((key, value) -> log.debug("{} : {}", key, value));
     }
-
 }

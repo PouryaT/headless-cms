@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface PostService {
 
-    PostResponseDto getPostById(Long id) throws Exception;
-
     PostResponseDto createPost(User user, PostCreateDto post, MultipartFile[] multipartFiles) throws Exception;
 
     PostResponseDto createPost(User user, PostCreateDto dto, Long[] mediaIds) throws Exception;
+
+    PostResponseDto getPostById(User user, Long id);
 
     PostResponseDto updatePost(User user, Long id, PostUpdateDto dto, MultipartFile[] multipartFiles) throws Exception;
 
@@ -23,5 +23,7 @@ public interface PostService {
 
     void deletePost(User user, Long id);
 
-    List<PostResponseDto> filterPosts(PostFilter filter, int page, int size);
+    void bookmarkPost(User user, Long postId);
+
+    List<PostResponseDto> getAllPostsByFilter(User user, PostFilter filter, int page, int size);
 }

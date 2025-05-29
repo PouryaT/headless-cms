@@ -2,6 +2,7 @@ package com.pouryat.headless_cms.service;
 
 import com.pouryat.headless_cms.dto.CommentCreateDto;
 import com.pouryat.headless_cms.dto.CommentResponseDto;
+import com.pouryat.headless_cms.dto.CommentUpdateDto;
 import com.pouryat.headless_cms.entity.User;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface CommentService {
 
     CommentResponseDto updateCommentStatus(Long id, boolean confirmed);
 
-    CommentResponseDto updateComment(User user, Long id, CommentCreateDto dto);
+    CommentResponseDto updateComment(User user, Long id, CommentUpdateDto dto);
 
     void deleteComment(User user, Long id);
 

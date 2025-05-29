@@ -7,7 +7,6 @@ import com.pouryat.headless_cms.entity.User;
 import com.pouryat.headless_cms.model.PostFilter;
 import com.pouryat.headless_cms.resolver.CurrentUser;
 import com.pouryat.headless_cms.service.PostService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,34 +40,36 @@ public class PostController {
         return postService.createPost(user, postDto, mediaIds);
     }
 
+    @GetMapping
+    public List<PostResponseDto> getAllPosts(@CurrentUser User user,
+                                             @ModelAttribute PostFilter filter,
+                                             @RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "10") int size) {
+        return postService.getAllPostsByFilter(user, filter, page, size);
+    }
+
     @GetMapping("/{id}")
-    public PostResponseDto getPost(@PathVariable @Positive Long id) throws Exception {
-        return postService.getPostById(id);
+    public PostResponseDto getPost(@CurrentUser User user,
+                                   @PathVariable @Positive Long id) {
+        return postService.getPostById(user, id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public PostResponseDto updatePost(@CurrentUser User user,
                                       @PathVariable @Positive Long id,
-                                      @RequestBody @Valid PostUpdateDto dto,
-                                      @RequestParam("files") MultipartFile[] multipartFiles) throws Exception {
+                                      @ModelAttribute PostUpdateDto dto,
+                                      @RequestParam(value = "files", required = false) MultipartFile[] multipartFiles) throws Exception {
         return postService.updatePost(user, id, dto, multipartFiles);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/{id}/post-with-media")
+    @PutMapping("/{id}/post-with-medias")
     public PostResponseDto updatePostWithMedia(@CurrentUser User user,
                                                @PathVariable @Positive Long id,
-                                               @RequestBody @Valid PostUpdateDto dto,
-                                               @RequestParam Long[] mediaIds) throws Exception {
+                                               @ModelAttribute PostUpdateDto dto,
+                                               @RequestParam(value = "mediaIds", required = false) Long[] mediaIds) throws Exception {
         return postService.updatePost(user, id, dto, mediaIds);
-    }
-
-    @GetMapping("/filter")
-    public List<PostResponseDto> getAllPostsByFilter(@ModelAttribute PostFilter filter,
-                                                     @RequestParam(defaultValue = "0") int page,
-                                                     @RequestParam(defaultValue = "10") int size) {
-        return postService.filterPosts(filter, page, size);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -76,5 +77,11 @@ public class PostController {
     public void deletePost(@CurrentUser User user,
                            @PathVariable @Positive Long id) {
         postService.deletePost(user, id);
+    }
+
+    @PostMapping("bookmark/{id}")
+    public void bookmark(@CurrentUser User user,
+                         @PathVariable @Positive Long id) {
+        postService.bookmarkPost(user, id);
     }
 }

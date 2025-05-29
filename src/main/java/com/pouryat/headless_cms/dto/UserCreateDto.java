@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class UserCreateDto {
     @NotBlank(message = "Username is required")
     private String username;
-    private String email;
     @NotBlank(message = "Username is required")
     @Size(min = 6, max = 10)
     private String password;

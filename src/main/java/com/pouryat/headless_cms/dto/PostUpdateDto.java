@@ -1,7 +1,7 @@
 package com.pouryat.headless_cms.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import com.pouryat.headless_cms.model.SubscriptionLevels;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,14 +16,12 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostUpdateDto implements Serializable {
-    @NotBlank(message = "Title is required")
     private String title;
-
-    @NotEmpty(message = "At least one category must be selected")
+    @Positive
     private Set<Long> categoryIds;
-
-    @NotEmpty(message = "At least one tag must be selected")
+    @Positive
     private Set<Long> tagIds;
-
+    @Positive
     private List<Long> mediaIdsToRemove;
+    private SubscriptionLevels postType;
 }

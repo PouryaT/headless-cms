@@ -2,11 +2,9 @@ package com.pouryat.headless_cms.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pouryat.headless_cms.model.PostStatus;
+import com.pouryat.headless_cms.model.SubscriptionLevels;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -28,8 +26,9 @@ public class Post {
 
     private String title;
 
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)    @JsonManagedReference
+    @ToString.Exclude
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Media> medias = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -64,6 +63,11 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @Lob
     @Column(length = 1000)
     private String content;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "post_type")
+    private SubscriptionLevels postType;
 }
