@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MediaServiceImpl implements MediaService {
+class MediaServiceImpl implements MediaService {
 
     private final MediaRepository mediaRepository;
     private final StorageService storageService;

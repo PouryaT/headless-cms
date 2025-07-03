@@ -1,9 +1,10 @@
 package com.pouryat.headless_cms.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table
@@ -18,4 +19,7 @@ public class Tag {
     private Long id;
 
     private String name;
+
+    @Version
+    private Long version;
 }

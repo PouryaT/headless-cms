@@ -35,5 +35,8 @@ public class Reaction {
 
     @CreationTimestamp
     private LocalDateTime reactedAt;
+
+    @Version
+    private Long version;
 }
 

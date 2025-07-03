@@ -31,4 +31,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Post> bookmarkedPosts;
+
+    @Version
+    private Long version;
 }

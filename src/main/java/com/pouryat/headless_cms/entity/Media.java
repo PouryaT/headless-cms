@@ -36,4 +36,7 @@ public class Media {
 
     @CreatedDate
     private LocalDateTime uploadedAt;
+
+    @Version
+    private Long version;
 }

@@ -19,6 +19,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PostServiceImpl implements PostService {
+class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
@@ -93,6 +95,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Cacheable(value = "posts")
     public List<PostResponseDto> getAllPostsByFilter(User user, PostFilter filter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -136,6 +139,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Cacheable(value = "posts")
     public PostResponseDto getPostById(User user, Long id) {
         if (user.isSubscription()) {
             Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
@@ -247,6 +251,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @CacheEvict(value = "posts")
     public void deletePost(User user, Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new CustomException("Post not found", HttpStatus.NOT_FOUND.value()));
         JwtUtils.checkOwnership(post.getAuthor().getId(), user.getId());

@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExceptionErrorResponse {
+class ExceptionErrorResponse {
     private String message;
     private int statusCode;
     private Date timestamp;

@@ -13,17 +13,17 @@ import java.util.Date;
 import java.util.List;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ExceptionErrorResponse> handleResourceNotFoundException(CustomException ex) {
-        ExceptionErrorResponse error = new ExceptionErrorResponse(ex.getMessage(), ex.getStatusCode(), new Date(),null);
+        ExceptionErrorResponse error = new ExceptionErrorResponse(ex.getMessage(), ex.getStatusCode(), new Date(), null);
         return new ResponseEntity<>(error, HttpStatusCode.valueOf(ex.getStatusCode()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> globalExceptionHandling(Exception exception) {
-        return new ResponseEntity<>(new ExceptionErrorResponse(exception.getMessage() + " ,you cant access this endPoint ,RESTRICTED ENDPOINT!", 403, new Date(),null), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(new ExceptionErrorResponse(exception.getMessage() + " ,you cant access this endPoint ,RESTRICTED ENDPOINT!", 403, new Date(), null), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

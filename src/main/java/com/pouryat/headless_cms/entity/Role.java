@@ -25,4 +25,7 @@ public class Role {
 
     @ManyToMany
     private Set<Authority> authorities;
+
+    @Version
+    private Long version;
 }

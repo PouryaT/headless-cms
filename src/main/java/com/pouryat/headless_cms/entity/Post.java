@@ -70,4 +70,7 @@ public class Post {
     @Enumerated(EnumType.STRING)
     @Column(name = "post_type")
     private SubscriptionLevels postType;
+
+    @Version
+    private Long version;
 }

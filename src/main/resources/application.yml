@@ -5,10 +5,13 @@ spring:
     url: jdbc:postgresql://localhost:5432/headless_cms
     username: pourya
     password: 12345
+    hikari:
+      auto-commit: false
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    open-in-view: false
   minio:
     url: http://localhost:9000
     access-key: minioadmin

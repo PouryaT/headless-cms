@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ReactionServiceImpl implements ReactionService {
+class ReactionServiceImpl implements ReactionService {
 
     private final ReactionRepository reactionRepository;
     private final CommentRepository commentRepository;
