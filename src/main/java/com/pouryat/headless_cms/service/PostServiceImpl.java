@@ -18,6 +18,7 @@ import com.pouryat.headless_cms.repository.TagRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,6 +42,7 @@ class PostServiceImpl implements PostService {
     private final EntityManager entityManager;
     private final MediaRepository mediaRepository;
 
+    @Transactional
     @Override
     public PostResponseDto createPost(User user, PostCreateDto dto, MultipartFile[] multipartFiles) throws Exception {
         Set<Category> categoriesSet = null;
@@ -73,6 +75,7 @@ class PostServiceImpl implements PostService {
         return PostMapper.toDto(postRepository.save(post));
     }
 
+    @Transactional
     @Override
     public PostResponseDto createPost(User user, PostCreateDto dto, Long[] mediaIds) {
 
@@ -149,6 +152,7 @@ class PostServiceImpl implements PostService {
         return PostMapper.toDto(post);
     }
 
+    @Transactional
     @Override
     public PostResponseDto updatePost(User user, Long id, PostUpdateDto dto, MultipartFile[] multipartFiles) throws Exception {
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
@@ -205,6 +209,7 @@ class PostServiceImpl implements PostService {
         return PostMapper.toDto(postRepository.save(post));
     }
 
+    @Transactional
     @Override
     public PostResponseDto updatePost(User user, Long id, PostUpdateDto dto, Long[] mediaIds) {
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
@@ -250,6 +255,7 @@ class PostServiceImpl implements PostService {
         return PostMapper.toDto(postRepository.save(post));
     }
 
+    @Transactional
     @Override
     @CacheEvict(value = "posts")
     public void deletePost(User user, Long id) {
@@ -261,7 +267,6 @@ class PostServiceImpl implements PostService {
         postRepository.deleteById(id);
         storageService.deleteFiles(fileNames);
     }
-
 
     @Override
     public void bookmarkPost(User user, Long postId) {

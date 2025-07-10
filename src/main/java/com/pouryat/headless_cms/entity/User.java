@@ -2,6 +2,7 @@ package com.pouryat.headless_cms.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,9 @@ public class User {
     private Set<Role> roles;
 
     private boolean subscription;
+
+    @Email
+    private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Post> bookmarkedPosts;

@@ -1,6 +1,5 @@
 package com.pouryat.headless_cms.config;
 
-import com.pouryat.headless_cms.entity.User;
 import com.pouryat.headless_cms.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,10 +17,9 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User currentUser = userRepo.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return UserPrincipal.fromUser(currentUser);
+        System.out.println("UserDetailsService: loading user by username: " + username);
+        return userRepo.findByUsername(username)
+                .map(UserPrincipal::fromUser)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }
-
