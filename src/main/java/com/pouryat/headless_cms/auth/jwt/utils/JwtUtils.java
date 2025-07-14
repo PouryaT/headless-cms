@@ -2,7 +2,7 @@ package com.pouryat.headless_cms.auth.jwt.utils;
 
 
 import com.pouryat.headless_cms.entity.User;
-import com.pouryat.headless_cms.handler.CustomException;
+import com.pouryat.headless_cms.exception.CustomException;
 import com.pouryat.headless_cms.model.RoleName;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -84,9 +84,9 @@ public class JwtUtils {
     }
 
     public static boolean isCurrentUserAdmin(User user) {
-        if (user == null || user.getRoles() == null) return false;
+        if (user == null || user.getRoles() == null) return true;
 
         return user.getRoles().stream()
-                .anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_ADMIN));
+                .noneMatch(role -> role.getRoleName().equals(RoleName.ROLE_ADMIN));
     }
 }

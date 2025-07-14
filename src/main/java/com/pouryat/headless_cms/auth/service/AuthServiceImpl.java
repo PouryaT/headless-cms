@@ -8,7 +8,7 @@ import com.pouryat.headless_cms.auth.model.RegisterRequestDto;
 import com.pouryat.headless_cms.config.CustomUserDetailService;
 import com.pouryat.headless_cms.entity.Role;
 import com.pouryat.headless_cms.entity.User;
-import com.pouryat.headless_cms.handler.CustomException;
+import com.pouryat.headless_cms.exception.CustomException;
 import com.pouryat.headless_cms.repository.RoleRepository;
 import com.pouryat.headless_cms.repository.UserRepository;
 import jakarta.transaction.Transactional;

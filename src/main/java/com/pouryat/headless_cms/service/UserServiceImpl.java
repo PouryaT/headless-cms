@@ -5,7 +5,7 @@ import com.pouryat.headless_cms.dto.UpdateUserSubDto;
 import com.pouryat.headless_cms.dto.UserResponseDto;
 import com.pouryat.headless_cms.dto.UserUpdateDto;
 import com.pouryat.headless_cms.entity.User;
-import com.pouryat.headless_cms.handler.CustomException;
+import com.pouryat.headless_cms.exception.CustomException;
 import com.pouryat.headless_cms.mapper.UserMapper;
 import com.pouryat.headless_cms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User loggedInUser, Long id) {
-        if (!JwtUtils.isCurrentUserAdmin(loggedInUser)) {
+        if (JwtUtils.isCurrentUserAdmin(loggedInUser)) {
             JwtUtils.checkOwnership(loggedInUser.getId(), id);
         }
         userRepository.deleteById(id);
@@ -46,7 +46,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getUserById(User loggedInUser, Long id) {
-        if (!JwtUtils.isCurrentUserAdmin(loggedInUser)) {
+        if (JwtUtils.isCurrentUserAdmin(loggedInUser)) {
             if (loggedInUser.getId().equals(id)) {
                 return UserMapper.toDto(userRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("User not found")));

@@ -1,7 +1,7 @@
 package com.pouryat.headless_cms.repository;
 
 import com.pouryat.headless_cms.entity.Comment;
-import com.pouryat.headless_cms.handler.CustomException;
+import com.pouryat.headless_cms.exception.CustomException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

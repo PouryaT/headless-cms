@@ -5,7 +5,7 @@ import com.pouryat.headless_cms.dto.PostCreateDto;
 import com.pouryat.headless_cms.dto.PostResponseDto;
 import com.pouryat.headless_cms.dto.PostUpdateDto;
 import com.pouryat.headless_cms.entity.*;
-import com.pouryat.headless_cms.handler.CustomException;
+import com.pouryat.headless_cms.exception.CustomException;
 import com.pouryat.headless_cms.mapper.PostMapper;
 import com.pouryat.headless_cms.model.MinIOUploadResponse;
 import com.pouryat.headless_cms.model.PostFilter;

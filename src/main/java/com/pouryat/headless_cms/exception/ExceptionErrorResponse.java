@@ -1,4 +1,4 @@
-package com.pouryat.headless_cms.handler;
+package com.pouryat.headless_cms.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

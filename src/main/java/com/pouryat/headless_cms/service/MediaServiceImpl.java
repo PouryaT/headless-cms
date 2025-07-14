@@ -3,7 +3,7 @@ package com.pouryat.headless_cms.service;
 import com.pouryat.headless_cms.dto.MediaResponseDto;
 import com.pouryat.headless_cms.entity.Media;
 import com.pouryat.headless_cms.entity.User;
-import com.pouryat.headless_cms.handler.CustomException;
+import com.pouryat.headless_cms.exception.CustomException;
 import com.pouryat.headless_cms.mapper.MediaMapper;
 import com.pouryat.headless_cms.model.MinIOUploadResponse;
 import com.pouryat.headless_cms.repository.MediaRepository;

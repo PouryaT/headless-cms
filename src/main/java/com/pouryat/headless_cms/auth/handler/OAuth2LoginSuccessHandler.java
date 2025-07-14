@@ -1,6 +1,7 @@
-package com.pouryat.headless_cms.config;
+package com.pouryat.headless_cms.auth.handler;
 
 import com.pouryat.headless_cms.auth.jwt.utils.JwtUtils;
+import com.pouryat.headless_cms.config.CustomUserDetailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
@@ -30,7 +31,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                                         Authentication authentication) throws IOException {
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String username = oAuth2User.getAttribute("email"); // or another unique attribute
+        String username = oAuth2User.getAttribute("email");
 
         String token = jwtUtils.generateToken(userDetailsService.loadUserByUsername(username));
 
@@ -42,7 +43,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private static class NoRedirectStrategy implements RedirectStrategy {
         @Override
         public void sendRedirect(HttpServletRequest request, HttpServletResponse response, String url) {
-            // no redirect
         }
     }
 }

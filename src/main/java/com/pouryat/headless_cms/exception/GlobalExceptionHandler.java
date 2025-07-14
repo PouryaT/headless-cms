@@ -1,4 +1,4 @@
-package com.pouryat.headless_cms.handler;
+package com.pouryat.headless_cms.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

@@ -1,6 +1,7 @@
 package com.pouryat.headless_cms.config;
 
 
+import com.pouryat.headless_cms.auth.handler.OAuth2LoginSuccessHandler;
 import com.pouryat.headless_cms.auth.jwt.filter.JwtFilter;
 import com.pouryat.headless_cms.auth.service.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
